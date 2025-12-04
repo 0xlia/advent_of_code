@@ -1,3 +1,5 @@
+import re 
+
 sum_invalid_ids = 0
 
 # elfen sind stupid und haben database zerschossen 
@@ -18,5 +20,12 @@ with open("input2.txt") as f:
 
         # iterate over ids
         i = first_id
-        for i in range(last_id+1):
-            pass
+        for i in range(first_id, last_id+1):
+            current_id = str(i)
+            match = re.match(r'^(.+)\1+$', current_id)
+            if match != None:
+                sum_invalid_ids += i
+            
+
+
+print(sum_invalid_ids)
