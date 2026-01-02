@@ -1,4 +1,4 @@
-from collections import defaultdict, namedtuple
+from collections import namedtuple
 import numpy as np
 import matplotlib.pyplot as plt
 from shapely import Polygon
