@@ -35,8 +35,9 @@ fn main() {
         // extract checksum, roomname, roomnumber
         let (a, checksum) = line.trim().split_once("[").unwrap();
         let (roomname, roomnumber) = a.rsplit_once("-").unwrap();
+        let roomname_part2 = roomname.replace("-", " ");
         let roomname = roomname.replace("-", "");
-        let roomnumber = roomnumber.parse::<i32>().unwrap();
+        let roomnumber: u32 = roomnumber.parse::<u32>().unwrap();
         let checksum = checksum.replace("]", "");
 
         // count letters
@@ -62,11 +63,36 @@ fn main() {
         letters_checksum.push(letters_vec[3].letter);
         letters_checksum.push(letters_vec[4].letter);
 
-        println!("name: {roomname}, number: {roomnumber}, checksum {checksum}, our checksum {letters_checksum}");
+        //println!("name: {roomname}, number: {roomnumber}, checksum {checksum}, our checksum {letters_checksum}");
 
         if letters_checksum == checksum {
             result += roomnumber;
         }
+
+       
+
+        // part 2
+        let shift: u32 = roomnumber % 26;
+
+        let mut decrypted_roomname = String::new(); 
+
+        for c in roomname_part2.chars() {
+            if c != ' ' {
+                //  (c  - 'a' + shift) % 26 + 'a'
+                let decrypted_char: u32 = ((c as u32) - 97 + shift) % 26 + 97;
+                let decrypted_char = decrypted_char as u8;
+
+                decrypted_roomname.push(decrypted_char as char);
+            } else {
+                decrypted_roomname.push(c);
+            }
+        }
+
+        if decrypted_roomname.contains("north") {
+            println!("{decrypted_roomname}: {roomnumber}");
+        } 
+        
+
         
     }
 
